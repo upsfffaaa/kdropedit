@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui LinguistTools)
 
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -19,6 +19,9 @@ add_executable(kdropedit
     main.cpp
     kdropedit.cpp
     kdropedit.h
+    settings.h
+    settings.cpp
+    resources.qrc
 )
 
 target_link_libraries(kdropedit
@@ -27,3 +30,14 @@ target_link_libraries(kdropedit
         Qt6::Gui
         KF6::GlobalAccel
 )
+
+set(TS_FILES
+    translations/app_en.ts
+    translations/app_ru.ts
+)
+
+qt_add_translations(kdropedit
+    TS_FILES ${TS_FILES}
+    QM_FILES_OUTPUT_VARIABLE QM_FILES
+)
+add_custom_target(translations ALL DEPENDS ${QM_FILES})
